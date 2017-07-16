@@ -1,5 +1,6 @@
 <?php
-$host = '127.0.0.1';
+function insert(){
+$host = '127.0.0.1' ;
 $db   = 'test';
 $user = 'root';
 $pass = '';
@@ -13,11 +14,22 @@ $opt = [
 ];
 $pdo = new PDO($dsn, $user, $pass, $opt);
 
+$statement = $pdo->prepare("INSERT INTO testtable(name, lastname, age)
+    VALUES(:fname, :sname, :age)");
+$statement->execute(array(
+    "fname" => "Bob",
+    "sname" => "Desaunois",
+    "age" => "18"
+));
+
+
+}
 $stmt = $pdo->query('SELECT name FROM users');
 while ($row = $stmt->fetch())
 {
     echo $row['name'] . "\n";
 }
+
 
 // Prevent SQL Injection
 $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email AND status=:status');
